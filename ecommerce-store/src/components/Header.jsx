@@ -75,8 +75,37 @@ export default function Header() {
         fontSize: "large",
         "&:hover": {
             backgroundColor: alpha(theme.palette.common.white, 0.35),
+        },
+         "& .MuiInputBase-input":{
+            color:theme.palette.common.white,
+        },
+        "& .MuiOutlinedInput-notchedOutline":{
+            border:"none"
+        },
+        "& .MuiSvgIcon-root":{
+            fill:theme.palette.common.white
+        },
+        "& .MuiInputLabel-root":{
+            color:theme.palette.common.white,
+
         }
     }));
+
+    const StyleAutocomplete=styled(Autocomplete)(({theme})=>({
+        "& .MuiInputBase-input":{
+            color:theme.palette.common.white,
+        },
+        "& .MuiOutlinedInput-notchedOutline":{
+            border:"none"
+        },
+        "& .MuiSvgIcon-root":{
+            fill:theme.palette.common.white
+        },
+        "& .MuiInputLabel-root":{
+            color:theme.palette.common.white,
+
+        }
+    }))
 
     function handleSearchChange({ label }) {
         setSearch(label)
@@ -99,30 +128,7 @@ export default function Header() {
                     <SearchBar sx={{
                         display: "flex",
                         flexGrow: 1, flexShrink: 1,
-                        width: "100%",
-                        "& .MuiOutlinedInput-root": {
-                            color: "white",
-                            "& fieldset": {
-                                // borderColor: "white",
-                                border: "none"
-                            },
-                            "&:hover fieldset": {
-                                // borderColor: "white"
-                                border: "none"
-
-                            },
-                            "&.Mui-focused fieldset": {
-                                // borderColor: "white"
-                                border: "none"
-                            },
-                            "& .MuiInputLabel-root": {
-                                color: "white",
-                            },
-                            "& .Mui-focused .MuiInputLabel-root": {
-                                color: "white",
-                            },
-
-                        }
+                        width: "100%"
                     }}>
                         <Select value={selectedCategory} sx={(theme) => ({
                             textTransform: "capitalize",
@@ -134,7 +140,7 @@ export default function Header() {
                             {categories ? categories.map((category) => <MenuItem key={category} value={category} sx={{ padding: "8px", textTransform: "capitalize" }}>{category}</MenuItem>) : null}
 
                         </Select>
-                        <Autocomplete
+                        <StyleAutocomplete
                             sx={{ width: { xs: "60%", sm: "60%", md: "80%" } }}
                             disablePortal
                             value={selectedProduct}
@@ -149,30 +155,6 @@ export default function Header() {
                             renderInput={(params) => (
                                 <TextField
                                     {...params}
-                                    sx={{
-                                        "& .MuiOutlinedInput-root": {
-                                            color: "white",
-                                            "& fieldset": {
-                                                // borderColor: "white",
-                                                border: "none"
-                                            },
-                                            "&:hover fieldset": {
-                                                // borderColor: "white"
-                                                border: "none"
-
-                                            },
-                                            "&.Mui-focused fieldset": {
-                                                // borderColor: "white"
-                                                border: "none"
-                                            },
-                                            "& .MuiInputLabel-root": {
-                                                color: "white",
-                                            },
-                                            "& .Mui-focused .MuiInputLabel-root": {
-                                                color: "white",
-                                            },
-                                        }
-                                    }}
                                 />
                             )}
                         />
