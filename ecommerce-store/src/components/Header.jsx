@@ -8,7 +8,7 @@ import Badge from "@mui/material/Badge";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import { useDispatch, useSelector } from "react-redux";
-import { getCartItemsCount } from "../utils";
+import { getCartItemsCount, getWishlistItemsCount } from "../utils";
 import { styled, alpha, useTheme } from "@mui/material/styles";
 import { Select } from "@mui/material";
 import { getCategoryList } from "../features/category-slice";
@@ -21,6 +21,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from "@mui/material/InputAdornment";
 import Cart from '../pages/Cart';
 import PositionedMenu from "./Menu";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 export default function Header() {
     const dispatch = useDispatch();
@@ -28,8 +29,9 @@ export default function Header() {
     const cartItems = useSelector(state => state.cart.value);
     const products = useSelector(state => state.products?.value);
     const theme = useTheme();
-
+    const wishlistedItems=useSelector(state=>state.wishlist.value);
     const cartCount = getCartItemsCount(cartItems);
+    const wishlistCount=getWishlistItemsCount(wishlistedItems);
     const getCategories = useSelector(state => state.categories);
     const { value: categories, loading } = getCategories ?? {};
     const [selectedCategory, setSelectedCategory] = useState("all");
@@ -43,6 +45,9 @@ export default function Header() {
 
     const handleCategoryChange = (ev) => {
         setSelectedCategory(ev.target.value);
+    }
+    function handleSearchChange({ label }) {
+        setSearch(label);
     }
 
     useEffect(() => {
@@ -107,10 +112,6 @@ export default function Header() {
         }
     }))
 
-    function handleSearchChange({ label }) {
-        setSearch(label)
-
-    }
     return (
         <AppBar position="sticky">
             <Container maxWidth="xl"  >
@@ -144,10 +145,10 @@ export default function Header() {
                             sx={{ width: { xs: "60%", sm: "60%", md: "80%" } }}
                             disablePortal
                             value={selectedProduct}
-                            onChange={(event, newValue) => {
+                            onChange={(event, product) => {
                                 // console.log(event.newValue,newValue);
-                                handleSearchChange(newValue);
-                                setSelectedProduct(newValue);
+                                handleSearchChange(product);
+                                setSelectedProduct(product);
                             }}
 
                             options={Array.from(selectedCategory === "all" ? products : products.filter(item => item.category === selectedCategory), (filtered) => ({ id: filtered.id, label: filtered.title }))}
@@ -161,9 +162,14 @@ export default function Header() {
                     </SearchBar>
 
                     <Box sx={{ display: "flex", width: "small", justifyContent: "fit-content", gap: 2, flexShrink: 0 }}>
-                        <IconButton aria-label="displays no.of items in Cart" onClick={() => navigate('/cart')}>
+                        <IconButton size="large" aria-label="displays no.of items in Cart" onClick={() => navigate('/cart')}>
                             <Badge badgeContent={cartCount} color="error">
                                 <ShoppingCartIcon sx={(theme) => ({ color: theme.palette.secondary.main })}></ShoppingCartIcon>
+                            </Badge>
+                        </IconButton>
+                        <IconButton size="large" aria-label="displays no.of items in Wishlist" onClick={()=>navigate("/wishlist")}>
+                            <Badge color="success" badgeContent={wishlistCount}>
+                                <FavoriteIcon sx={{color:"red"}}/>
                             </Badge>
                         </IconButton>
                         <PositionedMenu />

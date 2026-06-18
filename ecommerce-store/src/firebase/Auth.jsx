@@ -6,7 +6,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { updateProfile } from "firebase/auth";
 import { useState, useEffect, useContext, createContext } from "react";
-
+import { getFirestore,doc,setDoc,getDoc } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDtFB4NNrqMvqAVySmQ9bBYkXWXPttIrH0",
@@ -20,6 +20,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const AuthContext = createContext(null);
+export const db=getFirestore(app);
+
 
 export const AuthProvider = ({ children }) => {
     const authData = useProvideAuth();
@@ -42,8 +44,24 @@ export default function useProvideAuth() {
             .then(async ({ user }) => {
                 console.log(user);
                 await updateProfile(user, { displayName });
-                setUser(user);
-                return user;
+                await setDoc(doc(db,"users" ,user.uid),{
+                    name:user.displayName,
+                    email:user.email,
+                    phone:"",
+                    dob:"",
+                    photoUrl:"",
+                    emailVerified:"",
+                    gender:"",
+
+                    houseno:"",
+                    street:"",
+                    city:"",
+                    state:"",
+                    pincode:""
+
+                })
+                setUser(auth.currentUser);
+                return auth.currentUser;
             })
             .catch((error) => {
                 throw error;

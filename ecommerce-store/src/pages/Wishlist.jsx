@@ -1,4 +1,4 @@
-import { Container, Grid, Rating } from "@mui/material";
+
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -6,47 +6,27 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardActions from '@mui/material/CardActions';
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../features/cart-slice";
-import { getProducts } from "../features/product-slice";
-import { useSearchParams } from "react-router-dom";
-import { useState } from "react";
-import { toggleWishlist } from "../features/wishlist-slice";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import IconButton from '@mui/material/IconButton';
-import { formatIndianRupee } from "../utils";
-export function Home() {
-    const loadProducts = useSelector(state => state.products);
-    const [searchParams, setSearchParams] = useSearchParams();
-    const selectedCategory = searchParams.get("category") || "";
-    const searchTerm = searchParams.get("search") || "";
-    const [selectedProduct, setSelectedProduct] = useState("");
+import { useSelector, useDispatch } from "react-redux";
+import { addToCart } from "../features/cart-slice";
+import { toggleWishlist } from "../features/wishlist-slice";
+import { Container, Grid, Rating } from "@mui/material";
+import { formatIndianRupee } from '../utils';
+
+export default function Wishlist() {
     const dispatch = useDispatch();
     const wishlist = useSelector(state => state.wishlist.value);
-    const cart=useSelector(state=>state.cart.value);
-    const itemInCart=(id)=>cart.some((item) => item.id === id);
-    const { value: products, loading } = loadProducts ?? {};
-    useEffect(() => {
-        dispatch(getProducts())
-    }, [dispatch]);
-
-    let filteredProducts = (selectedCategory && selectedCategory !== "all") ? products.
-        filter(product => product.category == selectedCategory) : products;
-
-    filteredProducts = searchTerm ? filteredProducts.filter(item => item.title.toLowerCase().includes(searchTerm.toLowerCase())) : filteredProducts;
-
-    const isWishlisted = (id)=> wishlist.some((item) => item.id === id);
-
+    const cart = useSelector(state => state.cart.value);
+    const isWishlisted = (id) => wishlist.some((item) => item.id === id);
+    const itemInCart = (id) => cart.some((item) => item.id === id);
     return <div>
         <Container sx={{ py: 8 }} maxWidth="xl">
             <Grid container spacing={3} justifyContent="center">
                 {
-                    loading ? <Typography variant="h1" component="h2">
-                        Loading Products .... </Typography>
-                        : filteredProducts?.map(product => {
-                            const { id, thumbnail, title, rating, description, price } = product;
+                    wishlist?.map(product => {
+                        const { id, thumbnail, title, rating, description, price } = product;
                             return (
                                 <Grid key={id} >
                                     <Card sx={{
@@ -69,6 +49,7 @@ export function Home() {
                                                         display: "-webkit-box",
                                                         WebkitLineClamp: 1,
                                                         WebkitBoxOrient: "vertical"
+
                                                     }}>
                                                     {title}
                                                 </Typography>
@@ -99,15 +80,24 @@ export function Home() {
                                         </Button>}
                                             <IconButton aria-label="wishlist-button" size="large" onClick={()=>dispatch(toggleWishlist({ id, thumbnail, title, rating, description, price }))}>
                                                 {isWishlisted(id)?<FavoriteIcon fontSize="inherit" sx={{color:"red"}} />:<FavoriteBorderIcon fontSize="inherit" sx={{color:"red"}}/>}
+
                                             </IconButton>
                                         </CardActions>
                                     </Card>
+
                                 </Grid>
+
                             )
+
                         }
+
                         )
                 }
+
+
             </Grid>
+
         </Container>
+
     </div >
 }

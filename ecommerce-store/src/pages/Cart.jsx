@@ -1,89 +1,76 @@
-
 import { useSelector, useDispatch } from "react-redux";
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
-// import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
+import { CardActions } from "@mui/material";
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Rating from "@mui/material/Rating";
 import TextField from "@mui/material/TextField";
 import { addToCart, removeFromcart } from "../features/cart-slice";
-import { getSubTotal, getTotalAmount } from "../utils";
+import { formatIndianRupee, getSubTotal, getTotalAmount } from "../utils";
 import { useNavigate } from "react-router-dom";
-
+import { useTheme } from "@mui/material";
 export default function Cart() {
     const cart = useSelector(state => state.cart.value);
     const dispatch = useDispatch();
-    const navigate=useNavigate();
+    const navigate = useNavigate();
+    const theme = useTheme();
     const handleQuantityChange = (ev, { id, thumbnail, title, rating, quantity }) => {
         const newValue = ev.target.valueAsNumber;
         const diff = newValue - quantity;
         if (diff > 0) {
-            dispatch(addToCart({ id, quantity: Math.abs(diff) }));
+            dispatch(addToCart({ id, quantity: diff }));
         } else if (diff < 0) {
-            console.log(quantity, newValue, diff)
-            dispatch(removeFromcart({ id, thumbnail, title, rating, quantity: diff }));
+            console.log(quantity, newValue, Math.abs(diff))
+            dispatch(removeFromcart({ id, thumbnail, title, rating, quantity: Math.abs(diff) }));
         }
     }
-
     return (
-        <Container sx={{
-            flexGrow: 1, py: 8
-        }}>
-            <Grid container spacing={{ xs: 2, md: 3 }} sx={{
-                width: "100%",
-                height: "100%",
-                display: "flex",
-                flexDirection: { xs: "column", sm: "column", md: "row" },
-                justifyContent: {xs:"center",sm:"space-around",md:"space-between"},
-                alignItems:{xs:"center",sm:"center",md:"flex-start"},
-                padding: 4,
-                boxSizing: "border-box"
-            }}
-            >
-                <Grid sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 4,
-                }}>
+        <Container sx={{ py: 8 }} >
+            <Grid container spacing={2} >
+            <Grid item container spacing={2} size={{ xs: 12,md:8 }}>
                     {cart?.map(({ id, thumbnail, title, rating, quantity, price }) => (
-                        <Grid key={id}  >
+                        <Grid key={id} size={{ xs: 12}} >
                             <Card sx={{
-                                width: "100%",
-                                height: "100%",
                                 display: "flex",
-                                flexDirection: { xs: "column", sm: "column", md: "row" },
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                padding: 4,
-                                boxSizing: "border-box"
+                                py: 2
                             }}>
                                 <CardMedia
-                                    sx={{ width: 150, height: 150, objectFit: "contain" }}
+                                    sx={{
+                                        height: theme.spacing(30),
+                                        width: theme.spacing(30),
+                                        py: theme.spacing(),
+                                        objectFit: "contain"
+                                    }}
                                     image={thumbnail}
                                     title={title}
+
                                 />
-                                <CardContent >
+                                <CardContent sx={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    flex: 1
+                                }}>
                                     <Box sx={{
                                         display: "flex",
                                         flexDirection: "column",
-                                        gap: 2,
-
+                                        gap: 2
                                     }}>
                                         <Typography gutterBottom variant="h5" component="div">
                                             {title}
                                         </Typography>
-                                        <Typography variant="h6">{`$${price}`}</Typography>
+                                        <Typography variant="h6">{formatIndianRupee(price)}</Typography>
                                         <Rating readOnly precision={0.5} defaultValue={rating} />
                                         <TextField label="Quantity" color="success"
-                                            sx={{ width: "100%" }}
+                                            sx={{ width: theme.spacing(8) }}
                                             value={quantity}
                                             onChange={(ev) => handleQuantityChange(ev, { id, thumbnail, title, rating, quantity })}
-                                            variant="outlined" type="number" size="medium"
+                                            variant="standard" type="number" size="medium"
                                             inputProps={{
                                                 min: 0,
                                                 max: 12
@@ -91,35 +78,40 @@ export default function Cart() {
                                         />
                                     </Box>
                                 </CardContent>
-                                <Box sx={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    justifyContent: "flex-start",
-                                    alignItems: "flex-start",
-                                    height: "100%"
-                                }}>
-                                    <Typography variant="h6">Subtotal</Typography>
-                                    <Typography variant="h6">{getSubTotal(cart, id)}</Typography>
-                                </Box>
-
-                                {/* <CardActions>
-                                <Button size="small">Share</Button>
-                                <Button size="small">Learn More</Button>
-                            </CardActions> */}
+                                <CardActions>
+                                    <Box sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        gap: 2,
+                                        padding: 2
+                                    }}>
+                                        <Typography variant="h6">{formatIndianRupee(getSubTotal(cart, id))}</Typography>
+                                        <Button size="small" variant="outlined" color="primary" onClick={() => dispatch(removeFromcart({ id, quantity }))}>
+                                            Remove
+                                        </Button>
+                                    </Box>
+                                </CardActions>
                             </Card>
                         </Grid>
                     ))
                     }
                 </Grid>
-                <Grid size={{xs:"12",sm:"12",md:"12"}}>
-                    <Card sx={{ width: "100%",height:"100%", p: 2}}>
-                        <CardContent>
+                <Grid size={{ xs: 12,md:4}} sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                }}>
+                    <Box sx={{ width: "100%" }}>
+                        <Card sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 2,
+                            padding: theme.spacing(2)
+                        }}>
                             <Typography variant="h6">Bill amount</Typography>
-                            <Typography variant="h6">{getTotalAmount(cart)}</Typography>
-                            <Button variant="outlined" onClick={()=>navigate('/checkout')}>Buy Now</Button>
-                        </CardContent>
-                    </Card>
-
+                            <Typography variant="h6">{formatIndianRupee(getTotalAmount(cart))}</Typography>
+                            <Button variant="outlined" onClick={() => navigate('/checkout')}>Buy Now</Button>
+                        </Card>
+                    </Box>
                 </Grid>
             </Grid>
         </Container>

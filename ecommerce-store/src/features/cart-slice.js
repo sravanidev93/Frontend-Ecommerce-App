@@ -13,7 +13,7 @@ const cartSlice = createSlice({
 
             const item = state.value.find(prod => prod.id === id);
             if (item) {
-                item.quantity += 1;
+                item.quantity += quantity;
 
 
             } else {
@@ -27,7 +27,7 @@ const cartSlice = createSlice({
             const index = state.value.findIndex(prod => prod.id === id);
             if (index !== -1) {
                 const item = state.value[index];
-                item.quantity -= 1;
+                item.quantity -= quantity;
 
                 if (item.quantity === 0) {
                     state.value.splice(index, 1);

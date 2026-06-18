@@ -8,6 +8,8 @@ import { useAuth } from './firebase/Auth';
 import { Navigate } from 'react-router-dom';
 import { AuthProvider } from './firebase/Auth';
 import { Register } from './pages/Register';
+import Wishlist from './pages/Wishlist';
+import Profile from './pages/Profile';
 const ProtectedRoutes = ({ children }) => {
   const { user } = useAuth();
   if (!user) {
@@ -27,7 +29,14 @@ const router = createBrowserRouter(
         <ProtectedRoutes><Cart /></ProtectedRoutes>}></Route>
       <Route path="checkout" element={
         <ProtectedRoutes><Checkout /></ProtectedRoutes>}></Route>
-
+      <Route path='wishlist' element={
+        <ProtectedRoutes><Wishlist /></ProtectedRoutes>
+      }></Route>
+      <Route path="profile" element={
+        <ProtectedRoutes>
+          <Profile/>
+        </ProtectedRoutes>
+      }></Route>
     </Route>
   )
 )

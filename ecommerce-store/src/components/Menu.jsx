@@ -3,18 +3,36 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useState } from 'react';
 import { useAuth } from '../firebase/Auth';
+import { useNavigate } from 'react-router-dom';
 
 export default function PositionedMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const {logOut,user}=useAuth();
+  const { logOut, user } = useAuth();
+  const navigate = useNavigate();
+  // console.log(user);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleProfile = () => {
+    // console.log(user ? user.displayName : "user");
+    navigate("/profile");
   };
-  const handleSignOut=async()=>{
+
+  const handleClose=()=>{
+        setAnchorEl(null);
+
+  }
+
+  // const handleAccount = () => {
+  //   console.log(user ? user.email : "user");
+  //   navigate("/account");
+  // };
+
+  const handleSignOut = async () => {
+    console.log(user ? user.displayName : "user");
+
     await logOut();
   }
 
@@ -28,7 +46,7 @@ export default function PositionedMenu() {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-      >{user?user.displayName:"user"}
+      >{user ?`Hi,${ user.displayName}` :'Hi,user'}
       </Button>
       <Menu
         id="demo-positioned-menu"
@@ -45,7 +63,7 @@ export default function PositionedMenu() {
           horizontal: 'left',
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
+        <MenuItem onClick={handleProfile}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
         <MenuItem onClick={handleSignOut}>Logout</MenuItem>
       </Menu>
