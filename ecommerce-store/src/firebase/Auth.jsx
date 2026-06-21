@@ -7,6 +7,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { updateProfile } from "firebase/auth";
 import { useState, useEffect, useContext, createContext } from "react";
 import { getFirestore,doc,setDoc,getDoc } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDtFB4NNrqMvqAVySmQ9bBYkXWXPttIrH0",
@@ -21,7 +22,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const AuthContext = createContext(null);
 export const db=getFirestore(app);
-
+export const storage=getStorage(app);
 
 export const AuthProvider = ({ children }) => {
     const authData = useProvideAuth();

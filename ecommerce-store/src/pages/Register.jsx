@@ -13,7 +13,7 @@ export function Register() {
     const handleSignUp = async (event) => {
         event.preventDefault();
         const { email, password, displayName } = event.target;
-        console.log(event.target.password.value, event.target.email.value);
+        // console.log(event.target.password.value, event.target.email.value);
         try {
             await signUp(email.value, password.value, displayName.value);
             navigate("/login");

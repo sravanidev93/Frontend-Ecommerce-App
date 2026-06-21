@@ -12,13 +12,13 @@ export function Login() {
     const handleSignUp = async (event) => {
         event.preventDefault();
         const { email, password } = event.target;
-        console.log(event.target.password.value, event.target.email.value);
+        // console.log(event.target.password.value, event.target.email.value);
         try {
             await logIn(email.value, password.value);
             navigate("/");
 
         } catch (error) {
-            alert("You are not registered,Please SignIn");
+            alert(error.message);
             navigate("/register")
         }
 
