@@ -4,19 +4,30 @@ import LockIcon from '@mui/icons-material/Lock';
 import { useTheme } from "@emotion/react";
 import { useAuth } from "../firebase/Auth";
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 export function Login() {
     const theme = useTheme();
-    const { logIn } = useAuth();
+    const { logIn, user } = useAuth();
     const navigate = useNavigate();
+    // const [user, setUser] = useState(null);
+    // const handleVerifyEmail = async () => {
+    //     await verifyEmail();
+    // }
 
     const handleSignUp = async (event) => {
         event.preventDefault();
         const { email, password } = event.target;
+        console.log(user);
         // console.log(event.target.password.value, event.target.email.value);
         try {
-            await logIn(email.value, password.value);
-            navigate("/");
-
+            const user = await logIn(email.value, password.value);
+            console.log("user", user);
+            // setUser(user);
+            // if(user.emailVerified){
+                navigate("/");
+            // }else{
+            //     alert("please verify your email");
+            // }
         } catch (error) {
             alert(error.message);
             navigate("/register")
@@ -42,7 +53,10 @@ export function Login() {
                     </TextField>
                     <Button type="submit" variant="contained" fullWidth>Login</Button>
                 </form>
-                <Typography>Not Registered Yet!!<Link to='/register'><Button sx={{ml:2}} variant="outlined" color="inherit">Register here</Button></Link></Typography>
+                {/* {(user) ? (!user?.emailVerified) && <Button variant="contained" color="inherit" onClick={handleVerifyEmail}>Verify email</Button>
+                :<Typography>Not Registered Yet!!<Link to='/register'><Button sx={{ ml: 2 }} variant="outlined" color="inherit">Register here</Button></Link></Typography>} */}
+                    <Typography>Not Registered Yet!!<Link to='/register'><Button sx={{ ml: 2 }} variant="outlined" color="inherit">Register here</Button></Link></Typography>
+
             </Box>
         </Container>
 

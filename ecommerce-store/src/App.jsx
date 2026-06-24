@@ -10,6 +10,7 @@ import { AuthProvider } from './firebase/Auth';
 import { Register } from './pages/Register';
 import Wishlist from './pages/Wishlist';
 import Profile from './pages/Profile';
+import Account from './pages/Account';
 const ProtectedRoutes = ({ children }) => {
   const { user } = useAuth();
   if (!user) {
@@ -35,6 +36,11 @@ const router = createBrowserRouter(
       <Route path="profile" element={
         <ProtectedRoutes>
           <Profile/>
+        </ProtectedRoutes>
+      }></Route>
+       <Route path="account" element={
+        <ProtectedRoutes>
+          <Account/>
         </ProtectedRoutes>
       }></Route>
     </Route>

@@ -6,8 +6,11 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { onAuthStateChanged } from "firebase/auth";
 import { updateProfile } from "firebase/auth";
 import { useState, useEffect, useContext, createContext } from "react";
-import { getFirestore,doc,setDoc,getDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import { EmailAuthProvider,sendEmailVerification } from "firebase/auth";
+import { deleteUser } from "firebase/auth";
+import { reauthenticateWithCredential } from "firebase/auth";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDtFB4NNrqMvqAVySmQ9bBYkXWXPttIrH0",
@@ -21,8 +24,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const AuthContext = createContext(null);
-export const db=getFirestore(app);
-export const storage=getStorage(app);
+export const db = getFirestore(app);
+export const storage = getStorage(app);
 
 export const AuthProvider = ({ children }) => {
     const authData = useProvideAuth();
@@ -45,23 +48,24 @@ export default function useProvideAuth() {
             .then(async ({ user }) => {
                 console.log(user);
                 await updateProfile(user, { displayName });
-                await setDoc(doc(db,"users" ,user.uid),{
-                    name:user.displayName,
-                    email:user.email,
-                    phone:"",
-                    dob:"",
-                    photoUrl:"",
-                    emailVerified:"",
-                    gender:"",
+                await setDoc(doc(db, "users", user.uid), {
+                    name: user.displayName,
+                    email: user.email,
+                    phone: "",
+                    dob: "",
+                    photoUrl: "",
+                    emailVerified: "",
+                    gender: "",
 
-                    houseno:"",
-                    street:"",
-                    city:"",
-                    state:"",
-                    pincode:""
+                    houseno: "",
+                    street: "",
+                    city: "",
+                    state: "",
+                    pincode: ""
 
                 })
                 setUser(auth.currentUser);
+                alert("Account created successfully")
                 return auth.currentUser;
             })
             .catch((error) => {
@@ -86,11 +90,39 @@ export default function useProvideAuth() {
         })
     }
 
+    const deleteAccount = async (user, password) => {
+        try {
+            const credential = EmailAuthProvider.credential(
+                user.email,
+                password // entered by the user
+            );
+
+
+            await reauthenticateWithCredential(user, credential);
+            await deleteUser(user);
+            console.log("account deleted successfully")
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    // const verifyEmail = async (user) => {
+    //     try {
+    //         await sendEmailVerification(aser);
+    //         console.log(auth.currentUser);
+    //         alert("email verification sent ");
+    //     }catch(error){
+    //         throw error;
+    //     };
+
+    // }
     return {
         signUp,
         logOut,
         logIn,
-        user
+        user,
+        deleteAccount
     }
 };
 

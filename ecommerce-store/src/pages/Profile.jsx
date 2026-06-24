@@ -96,7 +96,7 @@ export default function Profile() {
       <Paper elevation={3} sx={{
         borderRadius: "2", padding: theme.spacing(2)
       }}>
-        <Typography gutterbottom variant="h4" margin="dense">Personal Details</Typography>
+        <Typography gutterBottom variant="h4" margin="dense">Personal Details</Typography>
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
           <Grid size={{ xs: 12 }}>
             <TextField gutterbottom
@@ -186,10 +186,10 @@ export default function Profile() {
         </Grid>
 
 
-        <Typography gutterbottom variant="h4" margin="dense">Address Details</Typography>
+        <Typography gutterBottom variant="h4" margin="dense">Address Details</Typography>
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
           <Grid size={{ xs: 12 }}>
-            <TextField gutterbottom
+            <TextField gutterBottom
               required
               variant="outlined"
               label="houseno"
@@ -203,7 +203,7 @@ export default function Profile() {
             />
           </Grid><Grid size={{ xs: 12 }}>
 
-            <TextField gutterbottom
+            <TextField gutterBottom
               required
               variant="outlined"
               label="street"
@@ -217,7 +217,7 @@ export default function Profile() {
             />
           </Grid><Grid size={{ xs: 12 }}>
 
-            <TextField gutterbottom
+            <TextField gutterBottom
               required
               variant="outlined"
               label="city"
@@ -230,7 +230,7 @@ export default function Profile() {
               onChange={handleChange}
             />
           </Grid><Grid size={{ xs: 12 }}>
-            <TextField gutterbottom
+            <TextField gutterBottom
               required
               variant="outlined"
               label="state"
@@ -243,7 +243,7 @@ export default function Profile() {
               onChange={handleChange}
             />
           </Grid><Grid size={{ xs: 12 }}>
-            <TextField gutterbottom
+            <TextField gutterBottom
               required
               variant="outlined"
               label="postal code"

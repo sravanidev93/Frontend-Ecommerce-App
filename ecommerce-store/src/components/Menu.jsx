@@ -25,10 +25,10 @@ export default function PositionedMenu() {
 
   }
 
-  // const handleAccount = () => {
-  //   console.log(user ? user.email : "user");
-  //   navigate("/account");
-  // };
+  const handleAccount = () => {
+    console.log(user ? user.email : "user");
+    navigate("/account");
+  };
 
   const handleSignOut = async () => {
     console.log(user ? user.displayName : "user");
@@ -64,7 +64,7 @@ export default function PositionedMenu() {
         }}
       >
         <MenuItem onClick={handleProfile}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
+        <MenuItem onClick={handleAccount}>My account</MenuItem>
         <MenuItem onClick={handleSignOut}>Logout</MenuItem>
       </Menu>
     </div>
