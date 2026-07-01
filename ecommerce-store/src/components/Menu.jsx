@@ -20,6 +20,11 @@ export default function PositionedMenu() {
     navigate("/profile");
   };
 
+    const handleCheckout = () => {
+    // console.log(user ? user.displayName : "user");
+    navigate("/checkout");
+  };
+
   const handleClose=()=>{
         setAnchorEl(null);
 
@@ -65,6 +70,7 @@ export default function PositionedMenu() {
       >
         <MenuItem onClick={handleProfile}>Profile</MenuItem>
         <MenuItem onClick={handleAccount}>My account</MenuItem>
+        <MenuItem  onClick={handleCheckout}>Checkout</MenuItem>
         <MenuItem onClick={handleSignOut}>Logout</MenuItem>
       </Menu>
     </div>

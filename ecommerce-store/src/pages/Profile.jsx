@@ -99,7 +99,7 @@ export default function Profile() {
         <Typography gutterBottom variant="h4" margin="dense">Personal Details</Typography>
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
           <Grid size={{ xs: 12 }}>
-            <TextField gutterbottom
+            <TextField
               required
               variant="outlined"
               label="username"
@@ -113,7 +113,7 @@ export default function Profile() {
             />
           </Grid><Grid size={{ xs: 12 }}>
 
-            <TextField gutterbottom
+            <TextField
               required
               variant="outlined"
               label="email"
@@ -126,7 +126,7 @@ export default function Profile() {
               onChange={handleChange}
             />
           </Grid><Grid size={{ xs: 12 }}>
-            <TextField gutterBottom
+            <TextField
               required
               variant="outlined"
               label="mobile number"
@@ -139,7 +139,7 @@ export default function Profile() {
               onChange={handleChange}
             />
           </Grid><Grid size={{ xs: 12 }}>
-            <TextField gutterBottom
+            <TextField
               required
               variant="outlined"
               label="date of birth"
@@ -167,7 +167,7 @@ export default function Profile() {
             />
           </Grid> */}
           <Grid size={{ xs: 12 }}>
-            <TextField gutterBottom
+            <TextField
               select
               variant="outlined"
               label="gender"
@@ -189,7 +189,7 @@ export default function Profile() {
         <Typography gutterBottom variant="h4" margin="dense">Address Details</Typography>
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
           <Grid size={{ xs: 12 }}>
-            <TextField gutterBottom
+            <TextField
               required
               variant="outlined"
               label="houseno"
@@ -203,7 +203,7 @@ export default function Profile() {
             />
           </Grid><Grid size={{ xs: 12 }}>
 
-            <TextField gutterBottom
+            <TextField
               required
               variant="outlined"
               label="street"
@@ -217,7 +217,7 @@ export default function Profile() {
             />
           </Grid><Grid size={{ xs: 12 }}>
 
-            <TextField gutterBottom
+            <TextField
               required
               variant="outlined"
               label="city"
@@ -230,7 +230,7 @@ export default function Profile() {
               onChange={handleChange}
             />
           </Grid><Grid size={{ xs: 12 }}>
-            <TextField gutterBottom
+            <TextField
               required
               variant="outlined"
               label="state"
@@ -243,7 +243,7 @@ export default function Profile() {
               onChange={handleChange}
             />
           </Grid><Grid size={{ xs: 12 }}>
-            <TextField gutterBottom
+            <TextField
               required
               variant="outlined"
               label="postal code"

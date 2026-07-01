@@ -29,7 +29,10 @@ const router = createBrowserRouter(
       <Route path="cart" element={
         <ProtectedRoutes><Cart /></ProtectedRoutes>}></Route>
       <Route path="checkout" element={
-        <ProtectedRoutes><Checkout /></ProtectedRoutes>}></Route>
+        <ProtectedRoutes>
+          <Checkout />
+          </ProtectedRoutes>
+        }></Route>
       <Route path='wishlist' element={
         <ProtectedRoutes><Wishlist /></ProtectedRoutes>
       }></Route>
